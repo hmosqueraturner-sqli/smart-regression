@@ -1,0 +1,17 @@
+
+#python
+*.py[cod]
+__pycache__/
+*.pyo
+*.pyd
+*.pyc
+.env/
+
+#Docker
+*.log
+*.env
+.env.*
+
+#VSCode
+.vscode/
+# JetBrains IDEs

@@ -1,0 +1,9 @@
+
+azure-identity
+azure-storage-blob
+azure-cosmos
+azure-search-documents
+requests
+tqdm
+python-dotenv
+openai
