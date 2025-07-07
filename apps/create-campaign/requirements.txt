@@ -1,9 +1,5 @@
 
-azure-identity
-azure-storage-blob
-azure-cosmos
-azure-search-documents
+fastapi
+uvicorn
 requests
-tqdm
 python-dotenv
-openai

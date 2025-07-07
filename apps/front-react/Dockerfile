@@ -1,10 +1,20 @@
-FROM mcr.microsoft.com/azure-functions/python:4-python3.11-appservice AS base
+# Build stage
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY package*.json ./
+RUN npm install
 
 COPY . .
+RUN npm run build
 
-CMD [ "python", "main.py" ]
+# Runtime stage with NGINX
+FROM nginx:stable-alpine
+
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

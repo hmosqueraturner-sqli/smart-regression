@@ -1,8 +1,11 @@
-import os
+from fastapi import FastAPI, Body
+from read_json import parse_testcase_input
+from create_testplan import create_jira_testcases
 
-if __name__ == "__main__":
-    print("Starting Create Campaign...")
-    print("1. Fetching data from JIRA...")
-    
+app = FastAPI()
 
-    print("JOB DONE: Create Campaign completed successfully.")
+@app.post("/create")
+def create_testcases(input_data: dict = Body(...)):
+    testcases = parse_testcase_input(input_data)
+    results = create_jira_testcases(testcases)
+    return {"created": results}
