@@ -1,6 +1,6 @@
 
 from azure.search.documents import SearchClient
-from utils.azure_clients import get_search_client
+from shared.azure_clients import get_search_client
 
 def upload_to_search_index(docs):
     """
