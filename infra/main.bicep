@@ -2,41 +2,45 @@
 param containerAppsEnvName string
 @description('Storage Account Name')
 param storageAccountName string
-@description('blobContainerName name')
+@description('Blob Container Name')
 param blobContainerName string
-@description('cosmosDbEndpoint name')
+@description('Cosmos DB Endpoint')
 param cosmosDbEndpoint string
-@description('cosmosDbDatabase name')
+@description('Cosmos DB Database')
 param cosmosDbDatabase string
-@description('azureSearchEndpoint name')
+@description('Azure Search Endpoint')
 param azureSearchEndpoint string
-@description('azureSearchIndex name')
+@description('Azure Search Index')
 param azureSearchIndex string
-@description('openAiEndpoint name')
+@description('OpenAI Endpoint')
 param openAiEndpoint string
-@description('openAiKey name')
+@description('OpenAI Key')
 param openAiKey string
-@description('jiraUrl ')
+@description('JIRA URL')
 param jiraUrl string
-@description('jiraToken')
+@description('JIRA Token')
 param jiraToken string
-@description('jiraUser')
+@description('JIRA User')
 param jiraUser string
-@description('reactAppApiUrl')
+@description('React App API URL')
 param reactAppApiUrl string
 @description('React App Environment name')
 param reactAppEnv string
-@description('api-Evaluate Url')
+@description('API Evaluate Url')
 param apiEvaluateUrl string
-@description('api-Create Url')
+@description('API Create Url')
 param apiCreateUrl string
 @description('Managed Identity Name')
 param userAssignedIdentityName string
 @description('Azure Container Registry Name')
 param acrName string
-
 @description('Location for the resources')
 param location string = resourceGroup().location
+
+@description('workspaceId for Log Analytics')
+param workspaceIdLogAnalytics string
+@description('primaryKey for Log Analytics')
+param primaryKeyLogAnalytics string
 
 @description('Azure Container Registry')
 resource acr 'Microsoft.ContainerRegistry/registries@2023-01-01-preview' = {
@@ -57,8 +61,8 @@ resource containerAppsEnv 'Microsoft.App/managedEnvironments@2022-03-01' = {
     appLogsConfiguration: {
       destination: 'log-analytics'
       logAnalyticsConfiguration: {
-        customerId: '' // Replace with your Log Analytics Workspace ID
-        sharedKey: '' // Replace with your Log Analytics Workspace Primary Key
+        workspaceId: workspaceIdLogAnalytics
+        primaryKey: primaryKeyLogAnalytics
       }
     }
   }
@@ -88,24 +92,26 @@ module secrets 'infra-secrets.bicep' = {
   scope: resourceGroup()
   params: {
     location: location
-    containerAppsEnvName:containerAppsEnvName
-    acrName:acrName
-    apiCreateUrl:apiCreateUrl
-    apiEvaluateUrl:apiEvaluateUrl
-    azureSearchEndpoint:azureSearchEndpoint
-    azureSearchIndex:azureSearchIndex
-    blobContainerName:blobContainerName
-    cosmosDbDatabase:cosmosDbDatabase
-    cosmosDbEndpoint:cosmosDbEndpoint
-    jiraToken:jiraToken
-    jiraUrl:jiraUrl
-    jiraUser:jiraUser
-    openAiEndpoint:openAiEndpoint
-    openAiKey:openAiKey
-    reactAppApiUrl:reactAppApiUrl
-    reactAppEnv:reactAppEnv
-    storageAccountName:storageAccountName
-    userAssignedIdentityName:userAssignedIdentityName
+    containerAppsEnvName: containerAppsEnvName
+    acrName: acrName
+    apiCreateUrl: apiCreateUrl
+    apiEvaluateUrl: apiEvaluateUrl
+    azureSearchEndpoint: azureSearchEndpoint
+    azureSearchIndex: azureSearchIndex
+    blobContainerName: blobContainerName
+    cosmosDbDatabase: cosmosDbDatabase
+    cosmosDbEndpoint: cosmosDbEndpoint
+    jiraToken: jiraToken
+    jiraUrl: jiraUrl
+    jiraUser: jiraUser
+    openAiEndpoint: openAiEndpoint
+    openAiKey: openAiKey
+    reactAppApiUrl: reactAppApiUrl
+    reactAppEnv: reactAppEnv
+    storageAccountName: storageAccountName
+    userAssignedIdentityName: userAssignedIdentityName
+    primaryKeyLogAnalytics: primaryKeyLogAnalytics
+    workspaceIdLogAnalytics: workspaceIdLogAnalytics
   }
 }
 
@@ -160,53 +166,4 @@ output storageAccountName string = storageAccount.name
 output containerAppsEnvName string = containerAppsEnv.name
 output cosmosDbEndpoint string = secrets.outputs.cosmosDbEndpoint
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //-----
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

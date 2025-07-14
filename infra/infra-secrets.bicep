@@ -37,7 +37,10 @@ param userAssignedIdentityName string
 param acrName string
 @description('Location for the resources')
 param location string = resourceGroup().location
-
+@description('workspaceId for Log Analytics')
+param workspaceIdLogAnalytics string
+@description('primaryKey for Log Analytics')
+param primaryKeyLogAnalytics string
 
 resource containerEnv 'Microsoft.App/managedEnvironments@2023-05-01' existing = {
   name: containerAppsEnvName
@@ -49,27 +52,27 @@ resource sharedSecrets 'Microsoft.App/managedEnvironments/secrets@2023-05-01' = 
   properties: {
     secrets: [
       {
-        name: 'storage-account_NAME'
+        name: 'STORAGE_ACCOUNT_NAME'
         value: storageAccountName
       }
       {
-        name: 'blob-container_NAME'
+        name: 'BLOB_CONTAINER_NAME'
         value: blobContainerName
       }
       {
-        name: 'cosmosdb_ENDPOINT'
+        name: 'COSMOSDB_ENDPOINT'
         value: cosmosDbEndpoint
       }
       {
-        name: 'cosmosdb-database'
+        name: 'COSMOSDB_DATABASE'
         value: cosmosDbDatabase
       }
       {
-        name: 'AZURE_search_ENDPOINT'
+        name: 'AZURE_SEARCH_ENDPOINT'
         value: azureSearchEndpoint
       }
       {
-        name: 'AZURE_search-index'
+        name: 'AZURE_SEARCH_INDEX'
         value: azureSearchIndex
       }
       {
@@ -117,6 +120,14 @@ resource sharedSecrets 'Microsoft.App/managedEnvironments/secrets@2023-05-01' = 
         value: acrName
       }
       
+      {
+        name: 'WORK_SPACE_ID_LOG_ANALYTICS'
+        value: workspaceIdLogAnalytics
+      }
+      {
+        name: 'PRIMARY_KEY_LOG_ANALYTICS'
+        value: primaryKeyLogAnalytics
+      }
       
     ]
   }
