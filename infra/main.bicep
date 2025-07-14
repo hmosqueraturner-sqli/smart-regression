@@ -1,20 +1,42 @@
-
 @description('Container Apps Environment name')
-param containerAppsEnvName string = 'smart-regession-container-env'
+param containerAppsEnvName string
+@description('Storage Account Name')
+param storageAccountName string
+@description('blobContainerName name')
+param blobContainerName string
+@description('cosmosDbEndpoint name')
+param cosmosDbEndpoint string
+@description('cosmosDbDatabase name')
+param cosmosDbDatabase string
+@description('azureSearchEndpoint name')
+param azureSearchEndpoint string
+@description('azureSearchIndex name')
+param azureSearchIndex string
+@description('openAiEndpoint name')
+param openAiEndpoint string
+@description('openAiKey name')
+param openAiKey string
+@description('jiraUrl ')
+param jiraUrl string
+@description('jiraToken')
+param jiraToken string
+@description('jiraUser')
+param jiraUser string
+@description('reactAppApiUrl')
+param reactAppApiUrl string
+@description('React App Environment name')
+param reactAppEnv string
+@description('api-Evaluate Url')
+param apiEvaluateUrl string
+@description('api-Create Url')
+param apiCreateUrl string
+@description('Managed Identity Name')
+param userAssignedIdentityName string
+@description('Azure Container Registry Name')
+param acrName string
 
 @description('Location for the resources')
 param location string = resourceGroup().location
-
-@description('Azure Storage Account name')
-param storageAccountName string = 'stspaingenaipoc'
-
-targetScope = 'resourceGroup'
-param acrName string = 'smartregessionContainerRegistry'
-
-
-
-param projectName string = 'ragsystem'
-
 
 @description('Azure Container Registry')
 resource acr 'Microsoft.ContainerRegistry/registries@2023-01-01-preview' = {
@@ -27,7 +49,6 @@ resource acr 'Microsoft.ContainerRegistry/registries@2023-01-01-preview' = {
     adminUserEnabled: false
   }
 }
-
 
 resource containerAppsEnv 'Microsoft.App/managedEnvironments@2022-03-01' = {
   name: containerAppsEnvName
@@ -64,9 +85,27 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
 @description('Secrets compartidos del entorno')
 module secrets 'infra-secrets.bicep' = {
   name: 'sharedSecrets'
+  scope: resourceGroup()
   params: {
     location: location
-    containerAppEnvName:containerAppsEnvName
+    containerAppsEnvName:containerAppsEnvName
+    acrName:acrName
+    apiCreateUrl:apiCreateUrl
+    apiEvaluateUrl:apiEvaluateUrl
+    azureSearchEndpoint:azureSearchEndpoint
+    azureSearchIndex:azureSearchIndex
+    blobContainerName:blobContainerName
+    cosmosDbDatabase:cosmosDbDatabase
+    cosmosDbEndpoint:cosmosDbEndpoint
+    jiraToken:jiraToken
+    jiraUrl:jiraUrl
+    jiraUser:jiraUser
+    openAiEndpoint:openAiEndpoint
+    openAiKey:openAiKey
+    reactAppApiUrl:reactAppApiUrl
+    reactAppEnv:reactAppEnv
+    storageAccountName:storageAccountName
+    userAssignedIdentityName:userAssignedIdentityName
   }
 }
 
@@ -119,6 +158,7 @@ output storageAccountId string = storageAccount.id
 output identityId string = managedIdentityName.id
 output storageAccountName string = storageAccount.name
 output containerAppsEnvName string = containerAppsEnv.name
+output cosmosDbEndpoint string = secrets.outputs.cosmosDbEndpoint
 
 
 

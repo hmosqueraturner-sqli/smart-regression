@@ -1,32 +1,145 @@
-@description('Nombre del entorno de Azure Container Apps compartido')
-param containerAppEnvName string
 
-@description('Ubicación del entorno')
+@description('Container Apps Environment name')
+param containerAppsEnvName string
+@description('Storage Account Name')
+param storageAccountName string
+@description('blobContainerName name')
+param blobContainerName string
+@description('cosmosDbEndpoint name')
+param cosmosDbEndpoint string
+@description('cosmosDbDatabase name')
+param cosmosDbDatabase string
+@description('azureSearchEndpoint name')
+param azureSearchEndpoint string
+@description('azureSearchIndex name')
+param azureSearchIndex string
+@description('openAiEndpoint name')
+param openAiEndpoint string
+@description('openAiKey name')
+param openAiKey string
+@description('jiraUrl ')
+param jiraUrl string
+@description('jiraToken')
+param jiraToken string
+@description('jiraUser')
+param jiraUser string
+@description('reactAppApiUrl')
+param reactAppApiUrl string
+@description('React App Environment name')
+param reactAppEnv string
+@description('api-Evaluate Url')
+param apiEvaluateUrl string
+@description('api-Create Url')
+param apiCreateUrl string
+@description('Managed Identity Name')
+param userAssignedIdentityName string
+@description('Azure Container Registry Name')
+param acrName string
+@description('Location for the resources')
 param location string = resourceGroup().location
 
-@description('Secretos requeridos para la aplicación')
-param secrets object = {
-  'openai-endpoint': '<REEMPLAZAR>'
-  'openai-key': '<REEMPLAZAR>'
-  'jira-token': '<REEMPLAZAR>'
-  'jira-url': '<REEMPLAZAR>'
-  'jira-user': '<REEMPLAZAR>'
-  'api-evaluate-url': '<REEMPLAZAR>'
-  'api-create-url': '<REEMPLAZAR>'
-}
 
 resource containerEnv 'Microsoft.App/managedEnvironments@2023-05-01' existing = {
-  name: containerAppEnvName
+  name: containerAppsEnvName
 }
 
-@batchSize(1)
-module secretsModule 'secrets.bicep' = [
-  for secretName in union([], objectKeys(secrets)): {
-    name: 'secret-${secretName}'
-    params: {
-      containerAppEnvName: containerAppEnvName
-      secretName: secretName
-      secretValue: secrets[secretName]
-    }
+resource sharedSecrets 'Microsoft.App/managedEnvironments/secrets@2023-05-01' = {
+  parent: containerEnv
+  name: 'shared-secrets'
+  properties: {
+    secrets: [
+      {
+        name: 'storage-account_NAME'
+        value: storageAccountName
+      }
+      {
+        name: 'blob-container_NAME'
+        value: blobContainerName
+      }
+      {
+        name: 'cosmosdb_ENDPOINT'
+        value: cosmosDbEndpoint
+      }
+      {
+        name: 'cosmosdb-database'
+        value: cosmosDbDatabase
+      }
+      {
+        name: 'AZURE_search_ENDPOINT'
+        value: azureSearchEndpoint
+      }
+      {
+        name: 'AZURE_search-index'
+        value: azureSearchIndex
+      }
+      {
+        name: 'OPEN_AI_ENDPOINT'
+        value: openAiEndpoint
+      }
+      {
+        name: 'OPEN_AI_key'
+        value: openAiKey
+      }
+      {
+        name: 'JIRA_URL'
+        value: jiraUrl
+      }
+      {
+        name: 'JIRA_TOKEN'
+        value: jiraToken
+      }
+      {
+        name: 'JIRA_USER'
+        value: jiraUser
+      }
+      {
+        name: 'REACT_APP_API_URL'
+        value: reactAppApiUrl
+      }
+      {
+        name: 'REACT_APP_ENV'
+        value: reactAppEnv
+      }
+      {
+        name: 'API_EVALUATE_URL'
+        value: apiEvaluateUrl
+      }
+      {
+        name: 'API_CREATE_URL'
+        value: apiCreateUrl
+      }
+      {
+        name: 'AZURE_IDENTITY_NAME'
+        value: userAssignedIdentityName
+      }
+      {
+        name: 'AZURE_CONTAINERS_REG'
+        value: acrName
+      }
+      
+      
+    ]
   }
-]
+}
+
+// 🔁 Outputs to use in the environment
+output cosmosDbEndpoint string = cosmosDbEndpoint
+output openAiEndpoint string = openAiEndpoint
+output jiraUrl string = jiraUrl
+output storageAccountName string = storageAccountName
+output reactAppApiUrl string = reactAppApiUrl
+
+
+//@batchSize(1)
+//module secretsModule 'secrets.bicep' = [
+//  for secretName in union([], objectKeys(secrets)): {
+//    name: 'secret-${secretName}'
+//    params: {
+//      containerAppEnvName: containerAppEnvName
+//      secretName: secretName
+//      secretValue: secrets[secretName]
+//    }
+//  }
+//]
+
+

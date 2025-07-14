@@ -2,7 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "smartregessionContainerRegistry": { "value": "smartregessionContainerRegistry" },
+     "smartregessionContainerRegistry": { "value": "smartregessionContainerRegistry" },
     "userAssignedIdentityName": { "value": "smart-regression-identity" },
     "containerAppsEnvName": { "value": "smart-regession-container-env" },
     "storageAccountName": { "value": "stspaingenaipoc" },
@@ -17,8 +17,9 @@
     "jiraToken": { "value": "dev-jira-token" },
     "jiraUser": { "value": "dev-user@example.com" },
     "reactAppApiUrl": { "value": "https://dev.api.myapp.com" },
-    "reactAppEnv": { "value": "development" },
+    "reactAppEnv": { "value": "PRODUCTION" },
     "apiEvaluateUrl": { "value": "https://dev.api.myapp.com/evaluate" },
     "apiCreateUrl": { "value": "https://dev.api.myapp.com/create" }
   }
 }
+
