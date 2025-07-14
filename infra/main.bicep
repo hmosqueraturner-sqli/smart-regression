@@ -9,7 +9,7 @@ param location string = resourceGroup().location
 param storageAccountName string = 'stspaingenaipoc'
 
 targetScope = 'resourceGroup'
-param acrName string = 'myregistry'
+param acrName string = 'smartregessionContainerRegistry'
 
 
 

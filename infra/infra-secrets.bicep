@@ -11,6 +11,8 @@ param secrets object = {
   'jira-token': '<REEMPLAZAR>'
   'jira-url': '<REEMPLAZAR>'
   'jira-user': '<REEMPLAZAR>'
+  'api-evaluate-url': '<REEMPLAZAR>'
+  'api-create-url': '<REEMPLAZAR>'
 }
 
 resource containerEnv 'Microsoft.App/managedEnvironments@2023-05-01' existing = {
@@ -18,11 +20,13 @@ resource containerEnv 'Microsoft.App/managedEnvironments@2023-05-01' existing = 
 }
 
 @batchSize(1)
-module secretsModule 'secrets.bicep' = [for secretName in union([], objectKeys(secrets)): {
-  name: 'secret-${secretName}'
-  params: {
-    containerAppEnvName: containerAppEnvName
-    secretName: secretName
-    secretValue: secrets[secretName]
+module secretsModule 'secrets.bicep' = [
+  for secretName in union([], objectKeys(secrets)): {
+    name: 'secret-${secretName}'
+    params: {
+      containerAppEnvName: containerAppEnvName
+      secretName: secretName
+      secretValue: secrets[secretName]
+    }
   }
-}]
+]
