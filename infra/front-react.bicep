@@ -1,11 +1,11 @@
 param appName string = 'front-react'
-param containerAppEnvName string
+param containerAppsEnvName string
 param location string = resourceGroup().location
 param acrName string
 param userAssignedIdentityName string
 
 resource containerEnv 'Microsoft.App/managedEnvironments@2023-05-01' existing = {
-  name: containerAppEnvName
+  name: containerAppsEnvName
 }
 
 resource acr 'Microsoft.ContainerRegistry/registries@2023-01-01-preview' existing = {

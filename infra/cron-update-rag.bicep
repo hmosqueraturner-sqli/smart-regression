@@ -1,11 +1,11 @@
 param appName string = 'cron-update-rag'
-param containerAppEnvName string
+param containerAppsEnvName string
 param location string = resourceGroup().location
 param acrName string
 param userAssignedIdentityName string
 
 resource containerEnv 'Microsoft.App/managedEnvironments@2023-05-01' existing = {
-  name: containerAppEnvName
+  name: containerAppsEnvName
 }
 
 resource acr 'Microsoft.ContainerRegistry/registries@2023-01-01-preview' existing = {
@@ -16,7 +16,7 @@ resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' 
   name: userAssignedIdentityName
 }
 
-resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
+resource cronJob 'Microsoft.App/jobs@2023-05-01' = {
   name: appName
   location: location
   identity: {
@@ -26,7 +26,7 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
     }
   }
   properties: {
-    managedEnvironmentId: containerEnv.id
+    environmentId: containerEnv.id
     configuration: {
       registries: [
         {
@@ -34,7 +34,11 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
           identity: identity.id
         }
       ]
-      activeRevisionsMode: 'Single'
+      replicaTimeout: 1800 // Optional: timeout in seconds
+      triggerType: 'Schedule'
+      scheduleTriggerConfig: {
+        cronExpression: '0 5 * * 0' // Every Sunday at 5am UTC
+      }
     }
     template: {
       containers: [
@@ -69,15 +73,7 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
           ]
         }
       ]
-      scale: {
-        minReplicas: 0
-        maxReplicas: 1
-        rules: []
-      }
-      schedule: {
-        triggerType: 'Schedule'
-        cronExpression: '0 5 * * 0' // Cada domingo a las 5am UTC
-      }
+      // You can set parallelism and retryPolicy if needed
     }
   }
 }

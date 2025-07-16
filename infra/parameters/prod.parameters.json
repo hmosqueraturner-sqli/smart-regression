@@ -2,7 +2,9 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "smartregessionContainerRegistry": { "value": "smartregessionContainerRegistry" },
+    "workspaceIdLogAnalytics": { "value": "29552453-cced-412e-be06-484d0bef9a10" },
+    "primaryKeyLogAnalytics": { "value": "smartregessionContainerRegistry" },
+    "acrName": { "value": "smartregessionContainerRegistry" },
     "userAssignedIdentityName": { "value": "smart-regression-identity" },
     "containerAppsEnvName": { "value": "smart-regession-container-env" },
     "storageAccountName": { "value": "stspaingenaipoc" },

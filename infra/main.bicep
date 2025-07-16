@@ -122,7 +122,7 @@ module cronUpdateRag 'cron-update-rag.bicep' = {
   name: 'cronUpdateRag'
   params: {
     appName: 'cron-update-rag'
-    containerAppEnvName: containerAppsEnvName
+    containerAppsEnvName: containerAppsEnvName
     acrName: acr.name
     userAssignedIdentityName: managedIdentityName.name
   }
@@ -132,7 +132,7 @@ module apiEvaluate 'api-evaluate.bicep' = {
   name: 'apiEvaluate'
   params: {
     appName: 'api-evaluate'
-    containerAppEnvName: containerAppsEnvName
+    containerAppsEnvName: containerAppsEnvName
     acrName: acr.name
     userAssignedIdentityName: managedIdentityName.name
   }
@@ -142,7 +142,7 @@ module apiCreate 'api-create.bicep' = {
   name: 'apiCreate'
   params: {
     appName: 'api-create'
-    containerAppEnvName: containerAppsEnvName
+    containerAppsEnvName: containerAppsEnvName
     acrName: acr.name
     userAssignedIdentityName: managedIdentityName.name
   }
@@ -152,7 +152,7 @@ module frontReact 'front-react.bicep' = {
   name: 'frontReact'
   params: {
     appName: 'front-react'
-    containerAppEnvName: containerAppsEnvName
+    containerAppsEnvName: containerAppsEnvName
     acrName: acr.name
     userAssignedIdentityName: managedIdentityName.name
   }

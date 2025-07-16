@@ -48,7 +48,7 @@ resource containerEnv 'Microsoft.App/managedEnvironments@2023-05-01' existing = 
 
 resource sharedSecrets 'Microsoft.App/managedEnvironments/secrets@2023-05-01' = {
   parent: containerEnv
-  name: 'shared-secrets'
+  name: 'sharedSecrets'
   properties: {
     secrets: [
       {
