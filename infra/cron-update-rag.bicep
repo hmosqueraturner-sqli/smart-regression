@@ -1,4 +1,5 @@
 param appName string = 'cron-update-rag'
+param imgName string = 'update-rag'
 param containerAppsEnvName string
 param location string = resourceGroup().location
 param acrName string
@@ -44,33 +45,33 @@ resource cronJob 'Microsoft.App/jobs@2023-05-01' = {
       containers: [
         {
           name: appName
-          image: '${acr.name}.azurecr.io/${appName}:latest'
+          image: '${acr.name}.azurecr.io/${imgName}:nhx'
           resources: {
-            cpu: 1
+            cpu: json('0.5')
             memory: '1.0Gi'
           }
-          env: [
-            {
-              name: 'AZURE_OPENAI_ENDPOINT'
-              secretRef: 'openai-endpoint'
-            }
-            {
-              name: 'AZURE_OPENAI_KEY'
-              secretRef: 'openai-key'
-            }
-            {
-              name: 'JIRA_API_TOKEN'
-              secretRef: 'jira-token'
-            }
-            {
-              name: 'JIRA_BASE_URL'
-              secretRef: 'jira-url'
-            }
-            {
-              name: 'JIRA_USER_EMAIL'
-              secretRef: 'jira-user'
-            }
-          ]
+          //env: [
+          //  {
+          //    name: 'AZURE_OPENAI_ENDPOINT'
+          //    secretRef: 'OPEN-AI-ENDPOINT'
+          //  }
+          //  {
+          //    name: 'AZURE_OPENAI_KEY'
+          //    secretRef: 'OPEN-AI-KEY'
+           // }
+          //  {
+          //    name: 'JIRA_API_TOKEN'
+          //    secretRef: 'JIRA-TOKEN'
+          //  }
+          //  {
+           //   name: 'JIRA_BASE_URL'
+          //    secretRef: 'JIRA-URL'
+          //  }
+          //  {
+          //    name: 'JIRA_USER_EMAIL'
+          //    secretRef: 'JIRA-USER'
+          //  }
+          //]
         }
       ]
       // You can set parallelism and retryPolicy if needed

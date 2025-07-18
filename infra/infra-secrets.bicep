@@ -48,7 +48,7 @@ resource containerEnv 'Microsoft.App/managedEnvironments@2023-05-01' existing = 
 
 resource sharedSecrets 'Microsoft.App/managedEnvironments/secrets@2023-05-01' = {
   parent: containerEnv
-  name: 'sharedSecrets'
+  name: 'smartregressionsharedsecrets'
   properties: {
     secrets: [
       {
@@ -80,7 +80,7 @@ resource sharedSecrets 'Microsoft.App/managedEnvironments/secrets@2023-05-01' = 
         value: openAiEndpoint
       }
       {
-        name: 'OPEN_AI_key'
+        name: 'OPEN_AI_KEY'
         value: openAiKey
       }
       {
@@ -133,7 +133,7 @@ resource sharedSecrets 'Microsoft.App/managedEnvironments/secrets@2023-05-01' = 
   }
 }
 
-// 🔁 Outputs to use in the environment
+// Outputs to use in the environment
 output cosmosDbEndpoint string = cosmosDbEndpoint
 output openAiEndpoint string = openAiEndpoint
 output jiraUrl string = jiraUrl

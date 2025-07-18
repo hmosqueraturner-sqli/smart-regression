@@ -48,23 +48,23 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
           name: appName
           image: '${acr.name}.azurecr.io/${appName}:latest'
           resources: {
-            cpu: 1
+            cpu: json('0.5')
             memory: '0.5Gi'
           }
-          env: [
-            {
-              name: 'REACT_APP_API_EVALUATE_URL'
-              secretRef: 'api-evaluate-url'
-            }
-            {
-              name: 'REACT_APP_API_CREATE_URL'
-              secretRef: 'api-create-url'
-            }
-            {
-              name: 'REACT_APP_ENVIRONMENT'
-              value: 'production'
-            }
-          ]
+          //env: [
+          //  {
+          //    name: 'REACT_APP_API_EVALUATE_URL'
+          //    secretRef: 'API-EVALUATE-URL'
+          //  }
+          //  {
+          //    name: 'REACT_APP_API_CREATE_URL'
+          //    secretRef: 'API-CREATE-URL'
+          //  }
+          //  {
+          //    name: 'REACT_APP_ENVIRONMENT'
+          //    value: 'production'
+          //  }
+          //]
         }
       ]
       scale: {

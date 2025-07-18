@@ -61,8 +61,10 @@ resource containerAppsEnv 'Microsoft.App/managedEnvironments@2022-03-01' = {
     appLogsConfiguration: {
       destination: 'log-analytics'
       logAnalyticsConfiguration: {
-        workspaceId: workspaceIdLogAnalytics
-        primaryKey: primaryKeyLogAnalytics
+        //workspaceId: workspaceIdLogAnalytics
+        //primaryKey: primaryKeyLogAnalytics
+        customerId: workspaceIdLogAnalytics
+        sharedKey: primaryKeyLogAnalytics
       }
     }
   }
@@ -86,9 +88,9 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   }
 }
 
-@description('Secrets compartidos del entorno')
+@description('Shared Secrets for the Container Apps Environment')
 module secrets 'infra-secrets.bicep' = {
-  name: 'sharedSecrets'
+  name: 'smartregressionsharedsecrets'
   scope: resourceGroup()
   params: {
     location: location
